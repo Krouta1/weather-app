@@ -1,11 +1,14 @@
+"use client";
 import { Button } from "./ui/button";
 import { github } from "@/app/utils/icons";
 import { ModeToggle } from "./ThemeDropdown/ThemeDropDown";
 import Link from "next/link";
-import { Search } from "lucide-react";
 import SearchDialog from "./SearchDialog/SearchDialog";
+import { useGlobalContext } from "@/app/context/globalContext";
 
 const Navbar = () => {
+  const { state } = useGlobalContext();
+
   return (
     <div className="flex w-full items-center justify-end py-4">
       <div className="left">
