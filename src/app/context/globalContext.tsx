@@ -9,19 +9,19 @@ import {
   useState,
 } from "react";
 
-interface Coord {
+export interface Coord {
   lon: number;
   lat: number;
 }
 
-interface Weather {
+export interface Weather {
   id: number;
   main: string;
   description: string;
   icon: string;
 }
 
-interface Main {
+export interface Main {
   temp: number;
   feels_like: number;
   temp_min: number;
@@ -32,23 +32,23 @@ interface Main {
   grnd_level: number;
 }
 
-interface Wind {
+export interface Wind {
   speed: number;
   deg: number;
   gust: number;
 }
 
-interface Clouds {
+export interface Clouds {
   all: number;
 }
 
-interface Sys {
+export interface Sys {
   country: string;
   sunrise: number;
   sunset: number;
 }
 
-interface Forecast {
+export interface Forecast {
   coord?: Coord;
   weather?: Weather[];
   base?: string;
@@ -89,7 +89,7 @@ export const GlobalContextProvider = ({
   const fetchForecast = async () => {
     try {
       const response = await axios.get("/api/weather");
-      console.log(response);
+      setForecast(response.data);
     } catch (error) {
       console.log("Error fetching forecast data: ", error);
     }
