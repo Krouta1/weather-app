@@ -64,12 +64,16 @@ export interface Forecast {
   cod?: number;
 }
 
+export interface Pollution {}
+
 interface GlobalContextType {
   forecast: Forecast; // Example property
+  pollution: Pollution;
 }
 
 interface GlobalContextUpdateType {
   setForecast: React.Dispatch<React.SetStateAction<Forecast>>;
+  setPollution: React.Dispatch<React.SetStateAction<Pollution>>;
 }
 
 // Provide initial values for the contexts
@@ -85,6 +89,7 @@ export const GlobalContextProvider = ({
 }) => {
   // Define your state and update functions here
   const [forecast, setForecast] = useState<Forecast>({});
+  const [pollution, setPollution] = useState<Pollution>({});
 
   const fetchForecast = async () => {
     try {
@@ -95,13 +100,23 @@ export const GlobalContextProvider = ({
     }
   };
 
+  const fetchPollution = async () => {
+    try {
+      const response = await axios.get("/api/pollution");
+      setPollution(response.data);
+    } catch (error) {
+      console.log("Error fetching pollution data: ", error);
+    }
+  };
+
   useEffect(() => {
     fetchForecast();
+    fetchPollution();
   }, []);
 
   return (
-    <GlobalContext.Provider value={{ forecast }}>
-      <GlobalContextUpdate.Provider value={{ setForecast }}>
+    <GlobalContext.Provider value={{ forecast, pollution }}>
+      <GlobalContextUpdate.Provider value={{ setForecast, setPollution }}>
         {children}
       </GlobalContextUpdate.Provider>
     </GlobalContext.Provider>
