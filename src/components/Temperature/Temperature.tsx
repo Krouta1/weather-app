@@ -11,6 +11,7 @@ import {
 import { kelvinToCelsius } from "@/app/utils/mics";
 import moment from "moment";
 import React, { use, useEffect, useState } from "react";
+import { Skeleton } from "../ui/skeleton";
 
 const Temperature = () => {
   const { forecast } = useGlobalContext();
@@ -57,7 +58,7 @@ const Temperature = () => {
 
   //guard for skeleton
   if (!forecast || !weather) {
-    return <div>Loading...</div>;
+    return <Skeleton className="col-span-2 h-[12rem] w-full md:col-span-4" />;
   }
 
   //temperature
@@ -66,7 +67,7 @@ const Temperature = () => {
   const maxTemp = kelvinToCelsius(main?.temp_max);
 
   return (
-    <div className="dark:bg-dark-gray flex flex-col justify-between rounded-lg border px-4 pb-5 pt-6 shadow-sm dark:shadow-none">
+    <div className="flex flex-col justify-between rounded-lg border px-4 pb-5 pt-6 shadow-sm dark:bg-dark-gray dark:shadow-none">
       <p className="flex items-center justify-between">
         <span className="font-medium">{currentDay}</span>
         <span className="font-medium">{localTime}</span>
