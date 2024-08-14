@@ -20,7 +20,7 @@ const AirPollution = () => {
   });
 
   return (
-    <div className="air-pollution sm-2:col-span-2 col-span-full flex h-[12rem] flex-col gap-8 rounded-lg border px-4 pt-6 shadow-sm dark:bg-dark-gray dark:shadow-none">
+    <div className="air-pollution sm-2:col-span-2 col-span-full flex h-[12rem] flex-col gap-8 rounded-lg border px-4 pb-5 pt-6 shadow-sm dark:bg-dark-gray dark:shadow-none">
       <h2 className="flex items-center gap-2 font-medium">
         {thermo}Air Pollution
       </h2>
