@@ -3,16 +3,20 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const lat = 40.4165;
-    const lon = -3.7026;
-    const API_KEY = process.env.OPENWEATHER_API_KEY;
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+    const apiKey = process.env.OPENWEATHER_API_KEY;
 
-    const response = await axios.get(url);
+    const searchParams = req.nextUrl.searchParams;
 
-    return NextResponse.json(response.data);
+    const lat = searchParams.get("lat");
+    const lon = searchParams.get("lon");
+
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+
+    const res = await axios.get(url);
+
+    return NextResponse.json(res.data);
   } catch (error) {
-    console.error("Error fetching forecast data: ", error);
+    console.log("Error fetching forecast data");
     return new Response("Error fetching forecast data", { status: 500 });
   }
 }

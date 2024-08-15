@@ -1,11 +1,24 @@
 "use client";
-
+import {
+  useGlobalContext,
+  useGlobalContextUpdate,
+} from "@/app/context/globalContext";
 import { commandIcon } from "@/app/utils/icons";
-import { Button } from "../ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
-import { Command, CommandInput } from "../ui/command";
 
-const SearchDialog = () => {
+import { Button } from "@/components/ui/button";
+import { Command, CommandInput } from "@/components/ui/command";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import React from "react";
+
+function SearchDialog() {
+  const { geoCodedList, inputValue, handleInput } = useGlobalContext();
+  const { setActiveCityCoords } = useGlobalContextUpdate();
+
+  const [hoveredIndex, setHoveredIndex] = React.useState<number>(0);
+
+  const getClickedCoords = (lat: number, lon: number) => {
+    setActiveCityCoords([lat, lon]);
+  };
   return (
     <div className="search-btn">
       <Dialog>
@@ -21,17 +34,55 @@ const SearchDialog = () => {
             </div>
           </Button>
         </DialogTrigger>
+
         <DialogContent className="p-0">
           <Command className="rounded-lg border shadow-md">
-            <CommandInput placeholder="Search here..." />
+            <CommandInput
+              value={inputValue}
+              onChangeCapture={handleInput}
+              placeholder="Type a command or search..."
+            />
             <ul className="px-3 pb-2">
               <p className="p-2 text-sm text-muted-foreground">Suggestions</p>
+
+              {geoCodedList?.length === 0 ||
+                (!geoCodedList && <p>No Results</p>)}
+
+              {geoCodedList &&
+                geoCodedList.map(
+                  (
+                    item: {
+                      name: string;
+                      country: string;
+                      state: string;
+                      lat: number;
+                      lon: number;
+                    },
+                    index: number,
+                  ) => {
+                    const { country, state, name } = item;
+                    return (
+                      <li
+                        key={index}
+                        onMouseEnter={() => setHoveredIndex(index)}
+                        className={`cursor-default rounded-sm px-2 py-3 text-sm ${hoveredIndex === index ? "bg-accent" : ""} `}
+                        onClick={() => {
+                          getClickedCoords(item.lat, item.lon);
+                        }}
+                      >
+                        <p className="text">
+                          {name}, {state && state + ","} {country}
+                        </p>
+                      </li>
+                    );
+                  },
+                )}
             </ul>
           </Command>
         </DialogContent>
       </Dialog>
     </div>
   );
-};
+}
 
 export default SearchDialog;
