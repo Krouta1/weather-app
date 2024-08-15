@@ -89,7 +89,7 @@ const Temperature = () => {
             Low: <strong>{minTemp}°</strong>
           </span>
           <span>
-            Hugh: <strong>{maxTemp}°</strong>
+            High: <strong>{maxTemp}°</strong>
           </span>
         </p>
       </div>
