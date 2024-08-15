@@ -36,12 +36,12 @@ function SearchDialog() {
         </DialogTrigger>
 
         <DialogContent className="p-0">
-          <Command className="rounded-lg border shadow-md">
-            <CommandInput
-              value={inputValue}
-              onChangeCapture={handleInput}
-              placeholder="Type a command or search..."
-            />
+          <Command
+            className="rounded-lg border shadow-md"
+            onChange={handleInput}
+            value={inputValue}
+          >
+            <CommandInput placeholder="Type a command or search..." />
             <ul className="px-3 pb-2">
               <p className="p-2 text-sm text-muted-foreground">Suggestions</p>
 

@@ -104,7 +104,7 @@ interface GlobalContextType {
   uvIndex: any;
   geoCodedList: any;
   inputValue: any;
-  handleInput: (e: Event) => void;
+  handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface GlobalContextUpdateType {
@@ -195,13 +195,11 @@ export const GlobalContextProvider = ({
   };
 
   // handle input
-  const handleInput = (e: Event) => {
-    if (e.target instanceof HTMLInputElement) {
-      setInputValue(e.target.value);
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
 
-      if (e.target.value === "") {
-        setGeoCodedList(defaultCountries);
-      }
+    if (e.target.value === "") {
+      setGeoCodedList(defaultCountries);
     }
   };
 
